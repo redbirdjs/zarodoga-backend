@@ -5,10 +5,14 @@ import moment from 'moment'
 //FIND ALL
 
 export const OsszesDolgozat = async(req, res) => {
-  const result = await prisma.zarodolgozat.findMany();
+  try {
+    const result = await prisma.zarodolgozat.findMany();
 
-  console.log(`${chalk.bgWhite.black(' MYSQL FIND-ALL ')} Sikeresen lekérdezve ${chalk.bgRed(` ${result.length} `)} záródolgozat.`);
-  res.send(result);
+    console.log(`${chalk.bgWhite.black(' MYSQL FIND-ALL ')} Sikeresen lekérdezve ${chalk.bgRed(` ${result.length} `)} záródolgozat.`);
+    res.send(result);
+  } catch (e) {
+    res.send({ msg: 'Hiba történt futtatás közben.', error: e });
+  }
 }
 
 //FIND BY ID
@@ -16,14 +20,18 @@ export const OsszesDolgozat = async(req, res) => {
 export const DogaById = async(req, res) => {
   const { id } = req.params;
 
-  const result = await prisma.zarodolgozat.findUnique({ where: { id: parseInt(id) } });
+  try {
+    const result = await prisma.zarodolgozat.findUnique({ where: { id: parseInt(id) } });
 
-  if (!result) {
-    return res.send({ msg: 'A megadott ID-vel nem létezik rekord!' });
+    if (!result) {
+      return res.send({ msg: 'A megadott ID-vel nem létezik rekord!' });
+    }
+
+    console.log(`${chalk.bgWhite.black(' MYSQL FIND-ALL ')} Sikeresen lekérdezve a(z) ${chalk.bgRed(` ${id} `)} ID-vel rendelkező záródolgozat.`);
+    res.send(result);
+  } catch (e) {
+    res.send({ msg: 'Hiba történt futtatás közben.', error: e });
   }
-
-  console.log(`${chalk.bgWhite.black(' MYSQL FIND-ALL ')} Sikeresen lekérdezve a(z) ${chalk.bgRed(` ${id} `)} ID-vel rendelkező záródolgozat.`);
-  res.send(result);
 }
 
 //CREATE
@@ -35,18 +43,22 @@ export const CreateDolgozat = async(req, res) => {
     return res.send('Hiányos / hibás adatok!');
   }
 
-  await prisma.zarodolgozat.create({ data: {
-    nev, zarodolgozatcim: zdcim, rovidleiras: rleiras, leadasidatum: (new Date(leadasidatum)), konzulensnev, ertekeles
-  } });
-
-  console.log(`${chalk.bgWhite.black(' MYSQL CREATE ')} Új záródolgozat létrehozva ezekkel az adatokkal:
-  ├─── Név: ${chalk.blue(nev)}
-  ├─── Záródolgozat cím: ${chalk.blue(zdcim)}
-  ├─── Rövid leírás: ${chalk.blue(rleiras)}
-  ├─── Leadási dátum: ${chalk.blue(leadasidatum)}
-  ├─── Konzulens név: ${chalk.blue(konzulensnev)}
-  └─── Értékelés: ${chalk.blue(ertekeles)}`);
-  res.send({ msg: 'Záródolgozat sikeresen hozzáadva!' });
+  try {
+    await prisma.zarodolgozat.create({ data: {
+      nev, zarodolgozatcim: zdcim, rovidleiras: rleiras, leadasidatum: (new Date(leadasidatum)), konzulensnev, ertekeles
+    } });
+  
+    console.log(`${chalk.bgWhite.black(' MYSQL CREATE ')} Új záródolgozat létrehozva ezekkel az adatokkal:
+    ├─── Név: ${chalk.blue(nev)}
+    ├─── Záródolgozat cím: ${chalk.blue(zdcim)}
+    ├─── Rövid leírás: ${chalk.blue(rleiras)}
+    ├─── Leadási dátum: ${chalk.blue(moment(leadasidatum).format('YYYY-MM-DD HH:mm:ss'))}
+    ├─── Konzulens név: ${chalk.blue(konzulensnev)}
+    └─── Értékelés: ${chalk.blue(ertekeles)}`);
+    res.send({ msg: 'Záródolgozat sikeresen hozzáadva!' });
+  } catch (e) {
+    res.send({ msg: 'Hiba történt futtatás közben.', error: e });
+  }
 }
 
 //DELETE
