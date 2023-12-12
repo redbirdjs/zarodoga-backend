@@ -1,0 +1,143 @@
+{
+	"info": {
+		"_postman_id": "ce8a3335-47d4-4752-a0bc-a1929df0c642",
+		"name": "Zarodolgozatok Feladat",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24302279"
+	},
+	"item": [
+		{
+			"name": "Összes Záródolgozat",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/dogak",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dogak"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Záródolgozat By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/dogak/3",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dogak",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Új Záródolgozat",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nev\": \"Teszt tanuló\",\r\n    \"zdcim\": \"Teszt Záródolgozat cím\",\r\n    \"rleiras\": \"Rövd leírás a záródolgozathoz\",\r\n    \"leadasidatum\": \"2024-01-01\",\r\n    \"konzulensnev\": \"Teszt tanár\",\r\n    \"ertekeles\": 4\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/dogak",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dogak"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Záródolgozat törlése",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/dogak/3",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dogak",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Záródolgozat módosítása By Id",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nev\": \"Teszt Tanuló mod\",\r\n    \"zdcim\": \"Módosított ZD cím\",\r\n    \"rleiras\": \"Még rövidebb leírás\",\r\n    \"leadasidatum\": \"2024-01-01\",\r\n    \"konzulensnev\": \"Mod Teszt tanar\",\r\n    \"ertekeles\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/dogak/4",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dogak",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5500",
+			"type": "string"
+		}
+	]
+}
